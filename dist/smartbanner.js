@@ -95,12 +95,8 @@ var _smartbanner2 = _interopRequireDefault(_smartbanner);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var smartbanner = void 0;
-
-window.onload = function () {
-  smartbanner = new _smartbanner2.default();
-  smartbanner.publish();
-};
+var smartbanner = new _smartbanner2.default();
+smartbanner.publish();
 
 },{"./smartbanner.js":5}],4:[function(require,module,exports){
 'use strict';
