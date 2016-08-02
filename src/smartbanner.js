@@ -68,6 +68,10 @@ export default class SmartBanner {
     return '#';
   }
 
+  get hasNoOptionsForPlatform() {
+    return !this.buttonUrl || this.buttonUrl === '#';
+  }
+
   get html() {
     return `<div class="smartbanner smartbanner--${this.platform} js_smartbanner">
       <a href="javascript:void();" class="smartbanner__exit js_smartbanner__exit"></a>
@@ -91,7 +95,7 @@ export default class SmartBanner {
   publish() {
     if (Object.keys(this.options).length === 0) {
       throw new Error('No options detected. Please consult documentation.');
-    } else if (Bakery.baked) {
+    } else if (Bakery.baked || this.hasNoOptionsForPlatform) {
       return false;
     }
     let bannerDiv = document.createElement('div');

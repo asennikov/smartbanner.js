@@ -1,7 +1,3 @@
-/*!
- * smartbanner.js v1.0.0 <https://github.com/ain/smartbanner.js>
- * Copyright © 2016 Ain Tohvri. Licensed under GPL-3.0.
- */
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
@@ -232,7 +228,7 @@ var SmartBanner = function () {
     value: function publish() {
       if (Object.keys(this.options).length === 0) {
         throw new Error('No options detected. Please consult documentation.');
-      } else if (_bakery2.default.baked) {
+      } else if (_bakery2.default.baked || this.hasNoOptionsForPlatform) {
         return false;
       }
       var bannerDiv = document.createElement('div');
@@ -279,6 +275,11 @@ var SmartBanner = function () {
         return this.options.buttonUrlApple;
       }
       return '#';
+    }
+  }, {
+    key: 'hasNoOptionsForPlatform',
+    get: function get() {
+      return !this.buttonUrl || this.buttonUrl === '#';
     }
   }, {
     key: 'html',
