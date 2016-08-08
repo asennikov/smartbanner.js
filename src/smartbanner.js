@@ -7,9 +7,15 @@ function handleExitClick(event, self) {
   event.preventDefault();
 }
 
+function handleButtonClick(event, self) {
+  self.install();
+}
+
 function addEventListeners(self) {
   let closeIcon = document.querySelector('.js_smartbanner__exit');
+  let button = document.querySelector('.smartbanner__button');
   closeIcon.addEventListener('click', () => handleExitClick(event, self));
+  button.addEventListener('click', () => handleButtonClick(event, self));
 }
 
 function getOriginalTopMargin() {
@@ -112,5 +118,9 @@ export default class SmartBanner {
     Bakery.bake();
     let position = Detector.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
     setTopMarginOrTop(position);
+  }
+
+  install() {
+    Bakery.bake();
   }
 }
