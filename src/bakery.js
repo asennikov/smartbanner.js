@@ -1,7 +1,8 @@
 export default class Bakery {
 
   static bake() {
-    document.cookie = 'smartbanner_exited=1';
+    const year = 60*60*24*365;
+    document.cookie = `smartbanner_exited=1; max-age=${year};`;
   }
 
   static unbake() {

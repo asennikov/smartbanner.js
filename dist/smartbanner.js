@@ -17,7 +17,8 @@ var Bakery = function () {
   _createClass(Bakery, null, [{
     key: 'bake',
     value: function bake() {
-      document.cookie = 'smartbanner_exited=1';
+      var year = 60 * 60 * 24 * 365;
+      document.cookie = 'smartbanner_exited=1; max-age=' + year + ';';
     }
   }, {
     key: 'unbake',
@@ -185,10 +186,18 @@ function handleExitClick(event, self) {
   event.preventDefault();
 }
 
+function handleButtonClick(event, self) {
+  self.install();
+}
+
 function addEventListeners(self) {
   var closeIcon = document.querySelector('.js_smartbanner__exit');
+  var button = document.querySelector('.smartbanner__button');
   closeIcon.addEventListener('click', function () {
     return handleExitClick(event, self);
+  });
+  button.addEventListener('click', function () {
+    return handleButtonClick(event, self);
   });
 }
 
@@ -246,6 +255,11 @@ var SmartBanner = function () {
       _bakery2.default.bake();
       var position = _detector2.default.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
       setTopMarginOrTop(position);
+    }
+  }, {
+    key: 'install',
+    value: function install() {
+      _bakery2.default.bake();
     }
   }, {
     key: 'priceSuffix',
