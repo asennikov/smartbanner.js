@@ -115,12 +115,14 @@ export default class SmartBanner {
   exit() {
     let banner = document.querySelector('.js_smartbanner');
     banner.outerHTML = '';
-    Bakery.bake();
+    let twelve_hours = 60*60*12;
+    Bakery.bake(twelve_hours);
     let position = Detector.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
     setTopMarginOrTop(position);
   }
 
   install() {
-    Bakery.bake();
+    let year = 60*60*24*365;
+    Bakery.bake(year);
   }
 }
