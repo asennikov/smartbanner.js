@@ -2,6 +2,14 @@ $light-grey: #f3f3f3;
 $grey: #767676;
 $blue: #1474fc;
 
+.smartbanner-wrapper {
+  top: 84px;
+}
+
+.smartbanner-wrapper__ui {
+  margin-top: 84px;
+}
+
 .smartbanner {
   position: absolute;
   top: 0;

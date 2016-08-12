@@ -18,24 +18,13 @@ function addEventListeners(self) {
   button.addEventListener('click', () => handleButtonClick(event, self));
 }
 
-function getOriginalTopMargin() {
-  let element = Detector.wrapperElement();
-  let margin = parseFloat(getComputedStyle(element).marginTop);
-  return isNaN(margin) ? 0 : margin;
+function setWrapperClass() {
+  let className = Detector.jQueryMobilePage() ? 'smartbanner-wrapper__ui' : 'smartbanner-wrapper';
+  Detector.wrapperElement().classList.add(className);
 }
 
-function getOriginalTop() {
-  let element = Detector.wrapperElement();
-  let top = parseFloat(getComputedStyle(element).top);
-  return isNaN(top) ? 0 : top;
-}
-
-function setTopMarginOrTop(value) {
-  if (Detector.jQueryMobilePage) {
-    Detector.wrapperElement().style.top = value + 'px';
-  } else {
-    Detector.wrapperElement().style.marginTop = value + 'px';
-  }
+function unsetWrapperClass() {
+  Detector.wrapperElement().classList.remove('smartbanner-wrapper__ui', 'smartbanner-wrapper');
 }
 
 export default class SmartBanner {
@@ -44,8 +33,6 @@ export default class SmartBanner {
     let parser = new OptionParser();
     this.options = parser.parse();
     this.platform = Detector.platform();
-    this.originalTopMargin = getOriginalTopMargin();
-    this.originalTop = getOriginalTop();
   }
 
   get priceSuffix() {
@@ -107,18 +94,16 @@ export default class SmartBanner {
     let bannerDiv = document.createElement('div');
     document.querySelector('body').appendChild(bannerDiv);
     bannerDiv.outerHTML = this.html;
-    let position = Detector.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
-    setTopMarginOrTop(position + this.height);
+    setWrapperClass();
     addEventListeners(this);
   }
 
   exit() {
     let banner = document.querySelector('.js_smartbanner');
     banner.outerHTML = '';
+    unsetWrapperClass();
     let twelve_hours = 60*60*12;
     Bakery.bake(twelve_hours);
-    let position = Detector.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
-    setTopMarginOrTop(position);
   }
 
   install() {

@@ -16,9 +16,8 @@ var Bakery = function () {
 
   _createClass(Bakery, null, [{
     key: 'bake',
-    value: function bake() {
-      var year = 60 * 60 * 24 * 365;
-      document.cookie = 'smartbanner_exited=1; max-age=' + year + ';';
+    value: function bake(duration) {
+      document.cookie = 'smartbanner_exited=1; max-age=' + duration + ';';
     }
   }, {
     key: 'unbake',
@@ -201,24 +200,13 @@ function addEventListeners(self) {
   });
 }
 
-function getOriginalTopMargin() {
-  var element = _detector2.default.wrapperElement();
-  var margin = parseFloat(getComputedStyle(element).marginTop);
-  return isNaN(margin) ? 0 : margin;
+function setWrapperClass() {
+  var className = _detector2.default.jQueryMobilePage() ? 'smartbanner-wrapper__ui' : 'smartbanner-wrapper';
+  _detector2.default.wrapperElement().classList.add(className);
 }
 
-function getOriginalTop() {
-  var element = _detector2.default.wrapperElement();
-  var top = parseFloat(getComputedStyle(element).top);
-  return isNaN(top) ? 0 : top;
-}
-
-function setTopMarginOrTop(value) {
-  if (_detector2.default.jQueryMobilePage) {
-    _detector2.default.wrapperElement().style.top = value + 'px';
-  } else {
-    _detector2.default.wrapperElement().style.marginTop = value + 'px';
-  }
+function unsetWrapperClass() {
+  _detector2.default.wrapperElement().classList.remove('smartbanner-wrapper__ui', 'smartbanner-wrapper');
 }
 
 var SmartBanner = function () {
@@ -228,8 +216,6 @@ var SmartBanner = function () {
     var parser = new _optionparser2.default();
     this.options = parser.parse();
     this.platform = _detector2.default.platform();
-    this.originalTopMargin = getOriginalTopMargin();
-    this.originalTop = getOriginalTop();
   }
 
   _createClass(SmartBanner, [{
@@ -243,8 +229,7 @@ var SmartBanner = function () {
       var bannerDiv = document.createElement('div');
       document.querySelector('body').appendChild(bannerDiv);
       bannerDiv.outerHTML = this.html;
-      var position = _detector2.default.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
-      setTopMarginOrTop(position + this.height);
+      setWrapperClass();
       addEventListeners(this);
     }
   }, {
@@ -252,14 +237,15 @@ var SmartBanner = function () {
     value: function exit() {
       var banner = document.querySelector('.js_smartbanner');
       banner.outerHTML = '';
-      _bakery2.default.bake();
-      var position = _detector2.default.jQueryMobilePage ? this.originalTop : this.originalTopMargin;
-      setTopMarginOrTop(position);
+      unsetWrapperClass();
+      var twelve_hours = 60 * 60 * 12;
+      _bakery2.default.bake(twelve_hours);
     }
   }, {
     key: 'install',
     value: function install() {
-      _bakery2.default.bake();
+      var year = 60 * 60 * 24 * 365;
+      _bakery2.default.bake(year);
     }
   }, {
     key: 'priceSuffix',
