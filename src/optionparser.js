@@ -5,11 +5,12 @@ function valid(name) {
 
 function convertToCamelCase(name) {
   let parts = name.split('-');
-  parts.map(function(part, index) {
-    if (index > 0) {
-      parts[index] = part.charAt(0).toUpperCase() + part.substring(1);
+  for (var i = 0; i < parts.length; i++) {
+    if (i > 0) {
+      let part = parts[i];
+      parts[i] = part.charAt(0).toUpperCase() + part.substring(1);
     }
-  });
+  }
   return parts.join('');
 }
 
@@ -19,19 +20,18 @@ export default class OptionParser {
     let metas = document.getElementsByTagName('meta');
     let options = {};
     let optionName = null;
-    Array.from(metas).forEach(function(meta) {
-      let name = meta.getAttribute('name');
-      let content = meta.getAttribute('content');
+    for (var i = 0; i < metas.length; i++) {
+      let name = metas[i].getAttribute('name');
+      let content = metas[i].getAttribute('content');
       if (name && content && valid(name) && content.length > 0) {
         optionName = name.split(':')[1];
-        if (optionName.includes('-')) {
+        if (optionName.indexOf('-') !== -1) {
           optionName = convertToCamelCase(optionName);
         }
         options[optionName] = content;
       }
-    });
+    }
     return options;
   }
-
 
 }

@@ -116,11 +116,12 @@ function valid(name) {
 
 function convertToCamelCase(name) {
   var parts = name.split('-');
-  parts.map(function (part, index) {
-    if (index > 0) {
-      parts[index] = part.charAt(0).toUpperCase() + part.substring(1);
+  for (var i = 0; i < parts.length; i++) {
+    if (i > 0) {
+      var part = parts[i];
+      parts[i] = part.charAt(0).toUpperCase() + part.substring(1);
     }
-  });
+  }
   return parts.join('');
 }
 
@@ -135,17 +136,17 @@ var OptionParser = function () {
       var metas = document.getElementsByTagName('meta');
       var options = {};
       var optionName = null;
-      Array.from(metas).forEach(function (meta) {
-        var name = meta.getAttribute('name');
-        var content = meta.getAttribute('content');
+      for (var i = 0; i < metas.length; i++) {
+        var name = metas[i].getAttribute('name');
+        var content = metas[i].getAttribute('content');
         if (name && content && valid(name) && content.length > 0) {
           optionName = name.split(':')[1];
-          if (optionName.includes('-')) {
+          if (optionName.indexOf('-') !== -1) {
             optionName = convertToCamelCase(optionName);
           }
           options[optionName] = content;
         }
-      });
+      }
       return options;
     }
   }]);
