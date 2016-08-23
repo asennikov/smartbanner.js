@@ -107,7 +107,7 @@ export default class SmartBanner {
   }
 
   install() {
-    let year = 60*60*24*365;
-    Bakery.bake(year);
+    let twelve_hours = 60*60*12;
+    Bakery.bake(twelve_hours);
   }
 }

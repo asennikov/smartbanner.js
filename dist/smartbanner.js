@@ -245,8 +245,8 @@ var SmartBanner = function () {
   }, {
     key: 'install',
     value: function install() {
-      var year = 60 * 60 * 24 * 365;
-      _bakery2.default.bake(year);
+      var twelve_hours = 60 * 60 * 12;
+      _bakery2.default.bake(twelve_hours);
     }
   }, {
     key: 'priceSuffix',
